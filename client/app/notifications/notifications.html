@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2 class="page-header">Notifications</h2>
+    <!--<div>
+        <label>filter by</label>
+        <select>
+            <option></option>
+            <option>stock outs</option>
+            <option>low stocks</option>
+            <option>CCU breakdowns</option>
+        </select>
+    </div>-->
+    <div class="row">
+        <div class="col-sm-8">
+            <table class="table table-bordered">
+                <thead>
+                    <th>#</th><th>Body</th><th>Facility</th><th>Time</th><th>Action</th>
+                </thead>
+                <tr class="bg-warning" ng-repeat="note in notifications">
+                    <td>{{$index + 1}}</td>
+                    <td>{{note.body}}</td>
+                    <td>{{note.facility.name}}</td>
+                    <td>{{note.dateSynced | date:"dd-MM-yyyy HH:mm:ss"}}</td>
+                    <td>
+                        <ul class="list-inline">
+                            <li><button class="btn btn-xs btn-warning" disabled>mark as pending</button></li>
+                            <li><button class="btn btn-success btn-xs" disabled>mark as done</button></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>

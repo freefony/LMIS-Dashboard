@@ -120,7 +120,16 @@ tr.grey-bg{
   width: 80px;
   margin: 20px auto;
 }
-
+.bg-rounded {
+  border-radius:5px;
+}
+.bg-padded {
+  padding : .6em;
+};
+.bg-grey {
+  background-color: #ececec;
+  border:1px #fff solid;
+}
 // reset nvd3 css that makes leaflet svg invisible
 .leaflet-container svg {
   width: auto;
