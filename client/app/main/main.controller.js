@@ -59,10 +59,10 @@ angular.module('lmisApp')
       .then(function(response){
         $scope.stockReports.total = response.length;
         for(var i in response){
-          if(response[i].isNonReporting){
+          if(response[i].daysFromLastCountDate > 14){
             $scope.stockReports.noReports.push(response[i])
           }else{
-            if(response[i].daysFromLastCountDate > 7){
+            if(response[i].daysFromLastCountDate > 7 && response[i].daysFromLastCountDate <= 14 ){
               $scope.stockReports.lateReports.push(response[i])
             }
           }
