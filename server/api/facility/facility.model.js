@@ -26,9 +26,6 @@ db.exists(function(err, exists) {
   }
 });
 
-// exports
-exports.all = all;
-
 function all(cb) {
   if (!allPromise) {
     var d = q.defer();
@@ -51,3 +48,62 @@ function all(cb) {
       cb(err);
     })
 }
+/**
+  * The functions below are designed to multiple parent location
+  * values group response by the parent locations supplied
+  * @params: parent-location-id(s), callback function optional.  
+  **/
+
+function byWard (wardIds, cb) {
+  var ids = utility.convertToArray(wardIds), 
+    d = q.defer();
+  
+  db.getView('by_ward',
+    {
+      include_docs: true,
+      keys: ids
+    }, 
+    function(err, res){
+      if(!err){
+        return d.resolve(res);
+      }
+      return d.reject(err);
+    }
+  )
+
+  return d.promise
+    .then(function(response){
+      cb(null, utility.removeDesignDocs(response.toArray()));
+    })
+    .catch(function(err){
+      cb(err);
+    });
+};
+
+function byLga(LgaIds, cb){
+  var ids =  utility.convertToArray(LgaIds),
+    d = q.defer();
+
+    db.getView('by_lga', {
+      include_docs: true,
+      keys: ids
+    }, 
+    function(err, res){
+      if(!err){
+        return d.resolve(res);
+      }
+      return d.reject(err);
+    });
+
+    d.promise
+      .then(function(facilities){
+        cb(facilities);
+      })
+      .catch(function(err){
+        cb(err);
+      });
+}
+// exports
+exports.all = all;
+exports.byWard = byWard;
+exports.byLga = byLga;

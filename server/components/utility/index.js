@@ -14,3 +14,26 @@ exports.removeDesignDocs = function removeDesignDocs(docs) {
 exports.parseBool = function parseBool(value) {
   return (value === true || value === 'true' || value === '1' || value === 1);
 };
+
+exports.isArray = function isArray (obj){
+	return obj instanceof Array;
+};
+
+exports.convertToArray = function convertToArray (obj){
+	if(isArray(obj)){
+		return obj;
+	}
+	return obj.split(',');
+}
+
+exports.replyNoAuth = function(err, facilities) {
+  if (err) return err;
+
+  res.json(facilities);
+};
+
+exports.replyWithAuth = function(err, facilities) {
+  if (err) return err;
+
+  res.json(auth.filterByFacilities(req, facilities, '_id'));
+}
