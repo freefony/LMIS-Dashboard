@@ -10,13 +10,17 @@ exports.index = function(req, res, next) {
 	
 	if(req.query){
 		if(req.query.ward || req.query.wards){
-			Facility.byWard(req.query.wards, utility.replyWithAuth);
+			return Facility.byWard(req.query.wards, utility.replyWithAuth);
+		}else if(req.query.lga || req.query.lgas){
+			return Facility.byLga(req.query.wards, utility.replyWithAuth);
+		}else if(){
+			return Facility.byZone(req.query.wards, utility.replyWithAuth);
 		}
 	}
-  Facility.all(utility.replyWithAuth);
+  return Facility.all(utility.replyWithAuth);
 };
 
 // get unrestricted list of facilities (not filtered by access rights)
 exports.unrestricted = function(req, res, next) {
-  Facility.all(utility.replyNoAuth);
+  return Facility.all(utility.replyNoAuth);
 };

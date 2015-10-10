@@ -102,8 +102,33 @@ function byLga(LgaIds, cb){
       .catch(function(err){
         cb(err);
       });
+};
+
+function byZones(zoneIds, cb){
+  var ids =  utility.convertToArray(LgaIds),
+    d = q.defer();
+
+    db.getView('by_zone', {
+      include_docs: true,
+      keys: ids
+    }, 
+    function(err, res){
+      if(!err){
+        return d.resolve(res);
+      }
+      return d.reject(err);
+    });
+
+    d.promise
+      .then(function(facilities){
+        cb(facilities);
+      })
+      .catch(function(err){
+        cb(err);
+      });
 }
 // exports
 exports.all = all;
 exports.byWard = byWard;
 exports.byLga = byLga;
+exports.byZone = byZones;
