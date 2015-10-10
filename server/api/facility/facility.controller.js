@@ -13,7 +13,7 @@ exports.index = function(req, res, next) {
 			return Facility.byWard(req.query.wards, utility.replyWithAuth);
 		}else if(req.query.lga || req.query.lgas){
 			return Facility.byLga(req.query.wards, utility.replyWithAuth);
-		}else if(){
+		}else if(req.query.zone || req.query.zones){
 			return Facility.byZone(req.query.wards, utility.replyWithAuth);
 		}
 	}
