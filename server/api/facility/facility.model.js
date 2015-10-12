@@ -27,6 +27,11 @@ db.exists(function(err, exists) {
 });
 
 function all(cb) {
+  var options = {};
+
+  if(arguments[1]){
+    options = arguments[1];
+  }
   if (!allPromise) {
     var d = q.defer();
     allPromise = d.promise;
@@ -41,7 +46,11 @@ function all(cb) {
 
   allPromise
     .then(function(rows) {
-      cb(null, utility.removeDesignDocs(rows.toArray()));
+      var pluckedRows = utility.removeDesignDocs(rows.toArray());
+      if(options.groupBy){
+        return cb(_groupBy(options.groupBy, pluckedRows));
+      }
+      return cb(null, pluckedRows);
     })
     .catch(function(err) {
       allPromise = null;
@@ -132,3 +141,20 @@ exports.all = all;
 exports.byWard = byWard;
 exports.byLga = byLga;
 exports.byZone = byZones;
+
+
+//helpers
+
+function _groupBy (field, facilities){
+  var responseData = {}, index;
+
+  for(i in facilities){
+      if(!responseData[facilities[i][field]]){
+        responseData[index] = [];
+      }
+      responseData[index].push(facilities[i]);
+    }
+  }
+
+  return responseData;
+}
